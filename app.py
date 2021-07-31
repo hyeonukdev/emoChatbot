@@ -30,39 +30,36 @@ def request_dialogflow_api(userText):
     dialogflow_url = 'https://dialogflow.clients6.google.com/v2beta1/projects/emochatbot-aupx/locations/global/agent/sessions/704c9faa-a2ba-4f3b-e9c6-a394311753f2:detectIntent'
     res = requests.post(dialogflow_url, data=json.dumps(data), headers=data_header)
 
-    print(f"res : {res}")
     if res.status_code != requests.codes.ok:
         return '오류가 발생했습니다.'
     else:
         data_receive = res.json()
         print(f"data_receive : {data_receive}")
-
-        # response = data_receive['queryResult']['fulfillmentText']
         queryResult = data_receive['queryResult']
         fulfillmentText = queryResult.get('fulfillmentText')
+
         if fulfillmentText:
+            # 인텐트에 데한 리스폰스
             response = fulfillmentText
         else:
+            # '그래' 답을 했을 경우
             fulfillmentMessages = queryResult.get('fulfillmentMessages')
-            print(f"fulfillmentMessages: {fulfillmentMessages}")
+            # print(f"fulfillmentMessages: {fulfillmentMessages}")
             richContent = fulfillmentMessages[0]['payload']['richContent'][0][0]
-            print(f"richContent: {richContent}")
+            # print(f"richContent: {richContent}")
             text = richContent.get('text')
             link = richContent.get('link')
-            print(f"text : {text}, link: {link}")
             msg = text + '\n' + link
             response = msg
 
-        print(f"response : {response}")
+        # print(f"response : {response}")
         return response
-
 
 
 @app.route("/get")
 def get_bot_response():
     userText = request.args.get('msg')
     return str(request_dialogflow_api(userText))
-    # return 'test'
 
 
 if __name__ == "__main__":

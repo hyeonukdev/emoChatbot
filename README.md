@@ -1,16 +1,35 @@
-# coronabot-chatterbot
-CoronaBot is a chat bot for answering question regarding Coronavirus
+# Emochatbot-chatterbot
 
-Tutorial - https://studygyaan.com/uncategorised/create-web-based-chatbot-in-python-django-flask
+## Flask 실행 방법
+**1. Repository 가져오기**
+  ```
+  git clone [REPO_URL]
+   ```
 
-`pip install Flask`
+**2. 가상환경 생성**
+  ```
+  python -m venv myvenv
+  ```
 
-`pip install chatterbot`
+**3. 가상환경 실행(window)** 
+  ```
+  source myvenv/Scripts/activete
+  ```
 
-`pip install chatterbot-corpus`
+**4. 패키지 설치**
+  ```
+  pip install -r requirements.txt
+  ```
+**4-1. 개별 설치**
 
-or 
+    `pip install Flask`
 
-`pip install -r requirements.txt`
+    `pip install chatterbot`
 
-![Chatbot](https://studygyaan.com/wp-content/uploads/2020/03/Chatbot-in-Python.png?style=centerme)
+    `pip install chatterbot-corpus`
+
+
+**5. Flask 서버 실행**
+  ```
+  python app.py
+  ```
