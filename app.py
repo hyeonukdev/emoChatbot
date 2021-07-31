@@ -11,7 +11,7 @@ def home():
 
 
 def request_dialogflow_api(userText):
-    MY_AUTH_TOKEN = "Bearer ya29.a0ARrdaM9SjP3ygOmXYBwxOGV9DiyzkzX61lDupARro59HoqEKXL5JIvkHv1lO4IVTC5TYAu8q4QRwM5n5SS-WLANX9z7CiLk8DbcDdFMWcSJt7zz8RcJggHi5gNWcBfjCIsBrtAsUoXNO3ELg1anMGvRRhktuIpo1G1zGonaMYBKmGX1jq1Kao_YKfHrrpPFAjsmlFx5tFTfHReuHceXu5kToAHJMgLUy6N0IbDdEI0whAjI"
+    MY_AUTH_TOKEN = "Bearer ya29.a0ARrdaM94yZLF8yYVTkJ9yyuCjPT3F9E_iESNujfv2CFnpBuWj2ZV4LLqEcQFg_aK_gSxQ6oznp3boTpLFsMGfaMdNqSEhGVwCxARACoMJ4JWhxY9tbppkcNhgsNOxylzLC4DxHR6ZMniKTzewMqEx5W4_1O1rs1glIhhzPspUc1cd9JxoIW6gZmjKWcQ9-QCnq9Bf6gjKwR_JH6BBEeZ4BI3fa3JdWWTFGe3BfzPSkcJYks"
 
     data_header = {
         'Authorization': MY_AUTH_TOKEN,
@@ -37,13 +37,24 @@ def request_dialogflow_api(userText):
         data_receive = res.json()
         print(f"data_receive : {data_receive}")
 
-        if data_receive['queryResult']['fulfillmentText'] != '':
-            response = data_receive['queryResult']['fulfillmentText']
-            print(f"response : {response}")
-            return response
+        # response = data_receive['queryResult']['fulfillmentText']
+        queryResult = data_receive['queryResult']
+        fulfillmentText = queryResult.get('fulfillmentText')
+        if fulfillmentText:
+            response = fulfillmentText
         else:
-            print(f"data_receive : {data_receive}")
-            return data_receive
+            fulfillmentMessages = queryResult.get('fulfillmentMessages')
+            print(f"fulfillmentMessages: {fulfillmentMessages}")
+            richContent = fulfillmentMessages[0]['payload']['richContent'][0][0]
+            print(f"richContent: {richContent}")
+            text = richContent.get('text')
+            link = richContent.get('link')
+            print(f"text : {text}, link: {link}")
+            msg = text + '\n' + link
+            response = msg
+
+        print(f"response : {response}")
+        return response
 
 
 
